@@ -16,10 +16,10 @@ define([ "dojo/_base/declare",
 
 			var searchNode = domConstruct.create("a", {'class': 'fa-search fa'}, this.domNode, 'last');
 			this.own(on(searchNode, 'click', lang.hitch(this, function() {
-				this.emit('Search')
+				this.emit('Search', {}, [this.get('value')])
 			})));
 			this.own(on(searchNode, 'keypress', lang.hitch(this, function() {
-				this.emit('Search')
+				this.emit('Search', {}, [this.get('value')])
 			})));
 		},
 

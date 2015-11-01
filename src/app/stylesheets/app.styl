@@ -30,6 +30,7 @@ blueColor = #00abfc
 		background: black
 		height: headerHeight
 		absolute top 0 left 0 right 0
+		background black
 	}
 }
 
@@ -45,7 +46,7 @@ blueColor = #00abfc
 		
 		.search-box {
 			width: 100%;
-    		max-width: 400px;
+    		max-width: 500px;
 	    	box-sizing: border-box;
     		border-radius: 7px;
     		padding: 7px;
@@ -61,7 +62,7 @@ blueColor = #00abfc
 			    top: 0px;
 			    bottom: 0;
 			    font-size: 18px;
-			    padding: 7px;
+			    padding: 7px 12px;
 			    cursor: pointer;
 			    background: blueColor
     		}
@@ -91,10 +92,10 @@ blueColor = #00abfc
 .photo-pane {
 	overflow: auto
 	absolute top 100px left 0 right 0 bottom 0
+	border-top: 1px solid blueColor;
 	
 	.sorting-container {
-	    padding-right: 25px
-	    padding-top: 10px
+        padding: 5px 40px 5px 0px;
 	    text-align: right
 	    
 	    .dijitDropDownButton {
@@ -153,10 +154,62 @@ blueColor = #00abfc
 		}
 	}
 	
-	.no-results-container.hidden{
+	.no-results-container.hidden,
+	.load-more-container.hidden{
 		display: none;
 	}
 }
+
+// CSS for Photo box
+.photo {
+	display: inline-block
+	margin: 1px 2px
+	position: relative
+	
+	.photo-img {
+	    width: 200px;
+    	height: 200px;
+    	background-size: cover;
+    	background-repeat: no-repeat;
+	    background-position: center;
+	}
+	
+	.photo-hover {
+		display: none
+	}
+}
+
+.photo.show-details {
+	.photo-hover {
+		absolute right 0 left 0 bottom 0
+		background: rgba(0, 0, 0, 0.6)
+		display:block
+	    height: 50px
+		z-index: 1
+		
+		.title {
+			text-align: left
+		    white-space: nowrap
+		    text-overflow: ellipsis
+		    overflow: hidden
+			color: white
+	        padding: 5px
+    		font-size: 14px
+		}
+		
+		.additonal-info {
+			color: white
+			text-align: right
+			font-size: 14px
+			padding: 0px 5px
+			
+			.fa {
+				padding-left: 10px;
+			}
+		}
+	}
+}
+
 
 .dijitMenu.sort-menu {
 	border 1px solid blueColor

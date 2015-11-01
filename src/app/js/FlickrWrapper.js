@@ -12,15 +12,11 @@ define([
 		_apiUrl: 'https://api.flickr.com/services/rest/?method={0}&api_key={1}&user_id={2}&format=json&nojsoncallback=1',
 
 		_photoUrl: 'https://farm{0}.staticflickr.com/{1}/{2}_{3}{4}.jpg',
+		
 		// list of api methods
 		_methodGetPublicPhotos: 'flickr.people.getPublicPhotos',
 		_methodSearch: 'flickr.photos.search',
-
-		// additional functions
-		//_methodGetUserDetails: 'flickr.people.getInfo',
-		//_methodGetPhotoInfo: 'flickr.photos.getInfo', // api_key, photo_id, secret
-		//_methodGetCommentList: 'flickr.photos.comments.getList',
-		//_methodGetPeopleList: 'flickr.photos.people.getList',
+		_methodGetPhotoInfo: 'flickr.photos.getInfo',
 
 		getPublicPhotos: function(optionalParams) {
 			return this._makeAjaxRequest(this._methodGetPublicPhotos, optionalParams);
@@ -29,6 +25,13 @@ define([
 		getPhotoUrl: function(imgObj, isLarge) {
 			var smallOrLarge = isLarge ? '_b' : '';
 			return lang.replace(this._photoUrl, [imgObj.farm, imgObj.server, imgObj.id, imgObj.secret, smallOrLarge]);
+		},
+
+		getPhotoInfo: function(imgObj) {
+			var parms = {};
+			parms['photo_id'] = imgObj.id;
+			parms['secret'] = imgObj.secret;
+			return this._makeAjaxRequest(this._methodGetPhotoInfo, parms);
 		},
 
 		searchPhotos: function(optionalParams) {
@@ -53,8 +56,8 @@ define([
 		            "X-Requested-With": null
 		        }
 		    }).then(function(result){
-		    	if (result && result.photos) {
-			    	deferred.resolve(result.photos);
+		    	if (result) {
+			    	deferred.resolve(result);
 			    }
 		    });
 

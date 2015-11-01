@@ -1,4 +1,12 @@
 <div>
-	<div class="photo-img"></div>
-	<div class="photo-hover"></div>
+	<div class="photo-img" data-dojo-attach-point="image"></div>
+	<div class="photo-hover">
+		<div class="title" data-dojo-type="dojox/mvc/Output" data-dojo-attach-point='titleLabel'></div>
+		<div class="additonal-info">
+			<span class="fa fa-comment" data-dojo-attach-point="commentIcon"></span>
+			<span data-dojo-type="dojox/mvc/Output" data-dojo-attach-point="commentNum"></span>
+			<span class="fa fa-tag" data-dojo-attach-point="tagIcon"></span>
+			<span data-dojo-type="dojox/mvc/Output" data-dojo-attach-point="tagNum"></span>
+		</div>
+	</div>
 </div>

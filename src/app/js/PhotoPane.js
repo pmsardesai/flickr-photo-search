@@ -6,6 +6,7 @@ define([ "dojo/_base/declare",
 	"dijit/_TemplatedMixin",
 	"dijit/_WidgetsInTemplateMixin",
 	"app/js/FlickrWrapper",
+	"app/js/PhotoBox",
 	"dojo/_base/array",
 	"dojo/_base/lang",
 	"dojo/dom-class",
@@ -17,7 +18,7 @@ define([ "dojo/_base/declare",
 	"dijit/form/Button",
 	"dijit/form/DropDownButton",
 	"dijit/DropDownMenu"], function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
-		FlickrWrapper, array, lang, domClass, domConstruct, when, MenuItem, templateString) {
+		FlickrWrapper, Photo, array, lang, domClass, domConstruct, when, MenuItem, templateString) {
 
 	var proto = {
 		templateString: templateString,
@@ -30,6 +31,7 @@ define([ "dojo/_base/declare",
 			DateTakenAsc: 'date-taken-asc',
 			DateTakenDesc: 'date-taken-desc'
 		},
+		text: null,
 
 		// private variables
 		_count: 50,
@@ -51,6 +53,15 @@ define([ "dojo/_base/declare",
 			this._loadPhotos();
 		},
 
+		// GETTERS AND SETTERS //
+		_setTextAttr: function(value) {
+			this._set('text', value)
+
+			this._page = 1;
+			this._searchEnabled = true;
+			this._loadPhotos();
+		},
+
 		// PRIVATE FUNCTIONS //
 		/*
 		* Load photos in the container
@@ -58,7 +69,7 @@ define([ "dojo/_base/declare",
 		_loadPhotos: function() {
 			// if we are on page one, make sure the container is empty
 			if (this._page === 1) 
-				this.photosContainer
+				domConstruct.empty(this.photosContainer);
 
 			if (this._searchEnabled) {
 				this._searchPhotos();
@@ -77,7 +88,7 @@ define([ "dojo/_base/declare",
 			};
 
 			when(FlickrWrapper.getPublicPhotos(parms), lang.hitch(this, function(results) {
-				this._createPhotos(results.photo);
+				this._createPhotos(results.photos.photo);
 			}));
 		},
 
@@ -87,11 +98,12 @@ define([ "dojo/_base/declare",
 		_searchPhotos: function() {
 			var parms = {};
 			this._sort && (parms['sort'] = this._sort);
+			this.text && (parms['text'] = this.text);
 			parms['count'] = this._count;
 			parms['page'] = this._page;
 
 			when(FlickrWrapper.searchPhotos(parms), lang.hitch(this, function(results) {
-				this._createPhotos(results.photo);
+				this._createPhotos(results.photos.photo);
 			}));
 		},
 
@@ -102,11 +114,13 @@ define([ "dojo/_base/declare",
 			// display no results label if there are no results
 			var hideLabel = (photos && photos.length > 0) || this._page > 1;
 			domClass.toggle(this.noResultsContainer, 'hidden', hideLabel);
+			domClass.toggle(this.loadMoreContainer, 'hidden', !hideLabel);
 
 			array.forEach(photos, function(photo) {
-				var url = FlickrWrapper.getPhotoUrl(photo);
-				var node = domConstruct.create('img', {'class': 'photo', src: url});
-				domConstruct.place(node, this.photosContainer, 'last');
+				var node = new Photo({photo: photo});
+				node.startup();
+				this.own(node);
+				domConstruct.place(node.domNode, this.photosContainer, 'last');
 			}, this)
 		},
 
@@ -137,8 +151,6 @@ define([ "dojo/_base/declare",
 		*/
 		_menuItemClicked: function(item) {
 			var ref = this.ref;
-
-
 			ref.dropButton.set('label', this.label);
 			ref._page = 1; // go back to first page
 			ref._sort = ref.sortType[this.field];

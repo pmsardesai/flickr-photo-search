@@ -13,14 +13,9 @@ define([ "dojo/_base/declare",
 	var proto = {
 		templateString: templateString,
 		baseClass: 'page',
-		dialog: null,
-		startup: function() {
-			this.inherited(arguments);
-			var test = templateString;
-		},
 
-		_sendRequest: function() {
-			Ajax.getPublicPhotos();
+		_searchClicked: function(value) {
+			this.photoPane.set('text', value);
 		}
 	};
 
