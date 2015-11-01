@@ -1,6 +1,12 @@
 <span data-dojo-type="dijit/layout/ContentPane">
 	<!-- Sorting options -->
-	<span></span>
+	<div class="sorting-container">
+		<span data-dojo-attach-point="dropButton" 
+			  data-dojo-type="dijit/form/DropDownButton" 
+			  data-dojo-props="label:'Relevance'">
+			<span class="sort-menu" data-dojo-attach-point="menu" data-dojo-type="dijit/DropDownMenu"></span>
+		</span>
+	</div>
 
 	<!-- Container to display all the options -->
 	<div class="photos-container" data-dojo-attach-point="photosContainer">
@@ -12,6 +18,6 @@
 	<div class="load-button-container">
 		<span data-dojo-attach-point="loadMore" 
 			data-dojo-type="dijit/form/Button"
-			data-dojo-attach-event="onClick:_loadClicked">Load More</span>
+			data-dojo-attach-event="onClick:_loadClicked">Load More...</span>
 	</div>
 </span>

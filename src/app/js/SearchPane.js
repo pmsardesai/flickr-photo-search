@@ -7,7 +7,9 @@ define([ "dojo/_base/declare",
 	"dijit/_WidgetsInTemplateMixin",
 	"dojo/text!app/templates/SearchPane.html",
 	"dijit/layout/ContentPane",
-	"dijit/form/TextBox"], function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
+	"dijit/form/TextBox",
+	"dijit/form/Button",
+	"app/js/SearchTextBox"], function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
 		templateString) {
 	var proto = {
 		templateString: templateString,
@@ -15,6 +17,10 @@ define([ "dojo/_base/declare",
 		dialog: null,
 		startup: function() {
 			this.inherited(arguments);
+		},
+
+		_searchClicked: function() {
+			
 		}
 	};
 

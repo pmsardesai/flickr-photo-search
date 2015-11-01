@@ -22,16 +22,6 @@ define([
 		//_methodGetCommentList: 'flickr.photos.comments.getList',
 		//_methodGetPeopleList: 'flickr.photos.people.getList',
 
-// images
-/*
-var sampleImgObj = { "id": "11738172576", "owner": "12218676@N04", "secret": "37d0aeb353", "server": "3803", "farm": 4, "title": "_IGP1164", "ispublic": 1, "isfriend": 0, "isfamily": 0 };
-var urlDefault = 'https://farm' + sampleImgObj.farm + '.staticflickr.com/' + sampleImgObj.server + '/' + sampleImgObj.id + '_' + sampleImgObj.secret + '.jpg';
-var urlLarge = 'https://farm' + sampleImgObj.farm + '.staticflickr.com/' + sampleImgObj.server + '/' + sampleImgObj.id + '_' + sampleImgObj.secret + '_b.jpg';
-
-//(500px)   urlDefault = https://farm4.staticflickr.com/3803/11738172576_37d0aeb353.jpg
-//(1024px)  urlLarge = https://farm4.staticflickr.com/3803/11738172576_37d0aeb353_b.jpg
-*/
-
 		getPublicPhotos: function(optionalParams) {
 			return this._makeAjaxRequest(this._methodGetPublicPhotos, optionalParams);
 		},
@@ -39,6 +29,10 @@ var urlLarge = 'https://farm' + sampleImgObj.farm + '.staticflickr.com/' + sampl
 		getPhotoUrl: function(imgObj, isLarge) {
 			var smallOrLarge = isLarge ? '_b' : '';
 			return lang.replace(this._photoUrl, [imgObj.farm, imgObj.server, imgObj.id, imgObj.secret, smallOrLarge]);
+		},
+
+		searchPhotos: function(optionalParams) {
+			return this._makeAjaxRequest(this._methodSearch, optionalParams);
 		},
 
 		_makeAjaxRequest: function(method, optionalParams) {
