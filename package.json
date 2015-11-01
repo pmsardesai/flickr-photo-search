@@ -1,0 +1,22 @@
+{
+  "name": "flickr-photo-search",
+  "version": "1.10.0",
+  "description": "A simple page that allows you to search photos using Flickr API",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pmsardesai/flickr-photo-search.git"
+  },
+  "devDependencies": {
+    "stylus": "0.48.1"
+  },
+  "keywords": [
+    "dojo",
+    "flickr",
+    "javascript",
+    "stylus"
+  ],
+  "dependencies": {
+    "express": "^4.13.3",
+    "nib": "^1.1.0"
+  }
+}
