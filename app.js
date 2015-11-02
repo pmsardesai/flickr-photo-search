@@ -6,7 +6,6 @@ var express = require('express'),
 var app = express();
 
 app.set('port', 5000);
-app.use(express.static(path.join(__dirname, 'src')));
 
 // setup stylus
 app.use(stylus.middleware(
@@ -19,6 +18,8 @@ app.use(stylus.middleware(
 		}
 	}
 ));
+
+app.use(express.static(path.join(__dirname, 'src')));
 
 // get html file which will load dojo and app
 app.get('/', function(req, res) {

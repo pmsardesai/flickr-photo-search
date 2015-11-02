@@ -31,13 +31,14 @@ define([ "dojo/_base/declare",
 			DateTakenAsc: 'date-taken-asc',
 			DateTakenDesc: 'date-taken-desc'
 		},
-		text: null,
+		searchParms: null,
 
 		// private variables
 		_count: 50,
 		_page: 1,
 		_sort: null,
 		_searchEnabled: false, // if false, display public photos, otherwise use search call
+		_currentDeferred: null,
 
 		postCreate: function() {
 			this.inherited(arguments);
@@ -54,8 +55,8 @@ define([ "dojo/_base/declare",
 		},
 
 		// GETTERS AND SETTERS //
-		_setTextAttr: function(value) {
-			this._set('text', value)
+		_setSearchParmsAttr: function(value) {
+			this._set('searchParms', value)
 
 			this._page = 1;
 			this._searchEnabled = true;
@@ -67,6 +68,11 @@ define([ "dojo/_base/declare",
 		* Load photos in the container
 		*/
 		_loadPhotos: function() {
+			// if there is a search call in progress, ignore the current call
+			if (this._currentDeferred && !this._currentDeferred.isResolved()) {
+				return;
+			}
+
 			// if we are on page one, make sure the container is empty
 			if (this._page === 1) 
 				domConstruct.empty(this.photosContainer);
@@ -87,8 +93,9 @@ define([ "dojo/_base/declare",
 				page: this._page
 			};
 
-			when(FlickrWrapper.getPublicPhotos(parms), lang.hitch(this, function(results) {
-				this._createPhotos(results.photos.photo);
+			this._currentDeferred = FlickrWrapper.getPublicPhotos(parms);
+			when(this._currentDeferred, lang.hitch(this, function(results) {
+				this._createPhotos(results.photos);
 			}));
 		},
 
@@ -96,14 +103,14 @@ define([ "dojo/_base/declare",
 		* Uses Flickr API to retrieve photos based on filter values
 		*/
 		_searchPhotos: function() {
-			var parms = {};
+			var parms = this.searchParms || {};
 			this._sort && (parms['sort'] = this._sort);
-			this.text && (parms['text'] = this.text);
 			parms['count'] = this._count;
 			parms['page'] = this._page;
 
-			when(FlickrWrapper.searchPhotos(parms), lang.hitch(this, function(results) {
-				this._createPhotos(results.photos.photo);
+			this._currentDeferred = FlickrWrapper.searchPhotos(parms);
+			when(this._currentDeferred, lang.hitch(this, function(results) {
+				this._createPhotos(results.photos);
 			}));
 		},
 
@@ -112,10 +119,13 @@ define([ "dojo/_base/declare",
 		*/
 		_createPhotos: function(photos) {
 			// display no results label if there are no results
-			var hideLabel = (photos && photos.length > 0) || this._page > 1;
-			domClass.toggle(this.noResultsContainer, 'hidden', hideLabel);
-			domClass.toggle(this.loadMoreContainer, 'hidden', !hideLabel);
+			domClass.toggle(this.noResultsContainer, 'hidden', photos.pages > 0);
 
+			// if we have one page of results, or we are on the last page, hide load more container
+			var hideLoadMoreContainer = photos.pages === 1 || photos.pages === this._page;
+			domClass.toggle(this.loadMoreContainer, 'hidden', hideLoadMoreContainer);
+
+			var photos = photos.photo;
 			array.forEach(photos, function(photo) {
 				var node = new Photo({photo: photo});
 				node.startup();

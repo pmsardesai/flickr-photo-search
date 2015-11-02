@@ -15,7 +15,11 @@ define([ "dojo/_base/declare",
 		baseClass: 'page',
 
 		_searchClicked: function(value) {
-			this.photoPane.set('text', value);
+			this.photoPane.set('searchParms', value);
+		},
+
+		_clearClicked: function() {
+			//this.photoPane.
 		}
 	};
 

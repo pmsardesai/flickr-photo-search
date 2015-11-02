@@ -1,12 +1,45 @@
 <span data-dojo-type="dijit/layout/ContentPane">
-	<div class="search-box-container">
-		<span data-dojo-attach-point="searchText" 
+	<div class="search-container">
+		<div data-dojo-attach-point="searchText" 
 			data-dojo-type="app/js/SearchTextBox"
 			data-dojo-props="placeholder:'Search photos by title, description or tags'"
-			data-dojo-attach-event="onSearch:_searchClicked" ></span>
+			data-dojo-attach-event="onSearch:_searchButtonClicked" ></div>
+		<div class="buttons-container">
+			<div class="more-options" data-dojo-attach-point="moreOptions" 
+				data-dojo-type="dijit/form/Button"
+				data-dojo-props="label: 'More Options', buttonState:'hide'"
+				data-dojo-attach-event="onClick:_updateFilterState" ></div>
+			<div class="reset" data-dojo-attach-point="reset" 
+				data-dojo-type="dijit/form/Button"
+				data-dojo-props="label: 'Reset'"
+				data-dojo-attach-event="onClick:_clearFilters" ></div>
+		</div>
+		<div class="filter-container" data-dojo-attach-point="filterContainer">
+			<div class="date-range-filter">
+				<div class="label" data-dojo-type="dojox/mvc/Output"
+					data-dojo-props="value:'Date Posted:'"></div>
+				<div data-dojo-type="dijit/form/DateTextBox"
+					data-dojo-attach-point="datePostedFrom"
+					data-dojo-props="placeholder:'From (MM/DD/YYYY)'"
+					data-dojo-attach-event="onChange:_dateChanged"></div>
+				<div data-dojo-type="dijit/form/DateTextBox"
+					data-dojo-attach-point="datePostedTo"
+					data-dojo-props="placeholder:'To (MM/DD/YYYY)'"
+					data-dojo-attach-event="onChange:_dateChanged"></div>
+			</div>
+			<div class="date-range-filter">
+				<div class="label" data-dojo-type="dojox/mvc/Output"
+					data-dojo-props="value:'Date Taken:'"></div>
+				<div data-dojo-type="dijit/form/DateTextBox"
+					data-dojo-attach-point="dateTakenFrom"
+					data-dojo-props="placeholder:'From (MM/DD/YYYY)'"
+					data-dojo-attach-event="onChange:_dateChanged"></div>
+				<div data-dojo-type="dijit/form/DateTextBox"
+					data-dojo-attach-point="dateTakenTo"
+					data-dojo-props="placeholder:'To (MM/DD/YYYY)'"
+					data-dojo-attach-event="onChange:_dateChanged"></div>
+			</div>
+
+		</div>
 	</div>
-	<span>
-		<label></label>
-		<span></span>
-	</span>
 </span>

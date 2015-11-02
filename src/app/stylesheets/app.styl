@@ -15,6 +15,7 @@ body {
 headerHeight = 40px
 searchPaneHeight = 50px
 blueColor = #00abfc
+mobile = "(max-width: 480px)";
 
 // CSS for widgets
 .dijitButtonNode *{
@@ -30,7 +31,6 @@ blueColor = #00abfc
 		background: black
 		height: headerHeight
 		absolute top 0 left 0 right 0
-		background black
 	}
 }
 
@@ -38,15 +38,19 @@ blueColor = #00abfc
 .search-pane {
 	background: #EFEFEF;
 	absolute top headerHeight left 0 right 0
-	height 60px
+	height 70px
+	transition-duration: 0.2s
+	transition-property: height
 	
-	.search-box-container {
-		padding:10px 20px;
+	.search-container {
+		padding:10px 20px 0px 20px;
 		text-align: center
-		
+	    max-width: 500px;
+    	margin: auto;
+    	overflow: hidden;
+
 		.search-box {
 			width: 100%;
-    		max-width: 500px;
 	    	box-sizing: border-box;
     		border-radius: 7px;
     		padding: 7px;
@@ -68,31 +72,58 @@ blueColor = #00abfc
     		}
 
 		}
-		
-		.dijitButton {
-			margin 0px
-			.dijitButtonNode {
-				background: blueColor;
-			    border-radius: 2px;
-			    border: none;
-			    color: white;
-			    box-shadow: none
-			    
-			    .dijitIcon {
-			    	font-size: 20px;
-					padding: 4px 4px 4px 11px;
-			    }
+
+		.buttons-container {
+			float:right
+			
+			.dijitButton {
+				margin: 0px
+				
+				.dijitButtonNode {
+					background: transparent
+				    border: none
+				    color: blueColor
+				    box-shadow: none
+				}
 			}
 		}
+		
+		.filter-container {
+			height 0px
+			display: block 
+			margin-top: 20px
+		    text-align: left;
+		    
+		    .date-range-filter {
+		    	padding: 0px 10px 10px 10px;
+		    	
+			    .label {
+			    	color: #666666
+			    }
+		    }
+		}
+		.filter-container.show {
+			height: 100px
+		}
 	}
+}
+
+.search-pane.show-filters {
+	height: 170px
+}
+
+.search-pane.show-filters + .photo-pane {
+	top: 210px
 }
 
 
 // CSS for Photo Upload Pane
 .photo-pane {
 	overflow: auto
-	absolute top 100px left 0 right 0 bottom 0
+	absolute top 110px left 0 right 0 bottom 0
 	border-top: 1px solid blueColor;
+	transition-duration: 0.2s
+	transition-property: top
 	
 	.sorting-container {
         padding: 5px 40px 5px 0px;
@@ -131,6 +162,19 @@ blueColor = #00abfc
 		}
 	}
 	
+	.no-results-container {
+		
+		.no-results-label {
+			width: 100%;
+    		text-align: center;
+    		display: block;
+		    font-size: 20px;
+    		color: #666666;
+    		padding: 0px 5px;
+    		box-sizing: border-box;
+		}
+	}
+	
 	.load-button-container {
 		width: 100%
 		text-align: center
@@ -155,8 +199,18 @@ blueColor = #00abfc
 	}
 	
 	.no-results-container.hidden,
-	.load-more-container.hidden{
+	.load-button-container.hidden{
 		display: none;
+	}
+}
+
+// once brower width hits a certain point,
+// show smaller images
+@media mobile {
+	.photo-pane {
+		.sorting-container {
+		    padding: 5px
+		}
 	}
 }
 
@@ -175,33 +229,32 @@ blueColor = #00abfc
 	}
 	
 	.photo-hover {
-		display: none
-	}
-}
-
-.photo.show-details {
-	.photo-hover {
 		absolute right 0 left 0 bottom 0
+		height: 0
+		overflow: hidden;
+		transition-property: height
+		transition-duration: 0.2s;
+		color: white
 		background: rgba(0, 0, 0, 0.6)
-		display:block
-	    height: 50px
-		z-index: 1
+		font-size: 14px
 		
 		.title {
 			text-align: left
 		    white-space: nowrap
 		    text-overflow: ellipsis
 		    overflow: hidden
-			color: white
-	        padding: 5px
-    		font-size: 14px
+	        padding: 5px 5px 10px 5px;
+		}
+		
+		.date-posted, .date-taken {
+			text-align: left
+			font-size: 12px
+			padding: 0px 5px
 		}
 		
 		.additonal-info {
-			color: white
 			text-align: right
-			font-size: 14px
-			padding: 0px 5px
+		    padding: 20px 5px 5px 5px;
 			
 			.fa {
 				padding-left: 10px;
@@ -210,7 +263,38 @@ blueColor = #00abfc
 	}
 }
 
+.photo.show-details {
+	.photo-hover {
+	    height: 100px
+		z-index: 1
+	}
+}
 
+// once brower width hits a certain point,
+// show smaller images
+@media mobile {
+	.photo {
+		display: block
+		border: 1px solid blueColor
+		margin: 5px
+		.photo-img {
+		    width: 100px;
+	    	height: 100px;
+		}
+
+		.photo-hover{
+			display: block;
+			left: 100px;
+			top: 0px;
+			height: auto
+			background: #EDEDED;
+			color:black
+			
+		}
+	}
+}
+
+// Override dojo styles for menus
 .dijitMenu.sort-menu {
 	border 1px solid blueColor
 	
@@ -224,5 +308,38 @@ blueColor = #00abfc
 		background blueColor
 		background-image none
 		color white
+	}
+}
+
+// Override dojo styles for date text boxes
+.claro .dijitDateTextBox.dijitComboBox.dijitTextBox {
+	border: 1px solid blueColor
+	border-radius: 2px 2px 0px 0px;
+	width: 150px
+
+	.dijitButtonNode {
+		background white
+	}
+	.dijitInputField {
+		padding 4px;
+	}	
+}
+
+.dijitCalendarPopup {
+	border: 1px solid blueColor;
+	
+	.dijitCalendarContainer,
+	.dijitCalendarHover,
+	.dijitCalendar:hover,
+	.dijitCalendarActive {
+		background: white
+	}
+	.dijitCalendarContainer,
+	.dijitCalendarHover {
+		background-color white
+		border-radius:0px;
+		.dijitCalendarBodyContainer {
+			border: 1px solid blueColor;
+		}
 	}
 }

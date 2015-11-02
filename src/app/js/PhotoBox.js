@@ -52,6 +52,13 @@ define([ "dojo/_base/declare",
 				} else {
 					this.tagNum.set('value', result.photo.tags.tag.length);
 				}
+
+				// parse dates
+				var datePosted = result.photo.dates.posted;
+				this.datePosted.set('value', 'Posted: ' + datePosted);
+
+				var dateTaken = result.photo.dates.taken;
+				this.dateTaken.set('value', 'Uploaded: ' + dateTaken);
 			}));
 		},
 
