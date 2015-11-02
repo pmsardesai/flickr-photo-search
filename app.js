@@ -5,7 +5,7 @@ var express = require('express'),
 
 var app = express();
 
-app.set('port', 5000);
+app.set('port', (process.env.PORT || 5000));
 
 // setup stylus
 app.use(stylus.middleware(
