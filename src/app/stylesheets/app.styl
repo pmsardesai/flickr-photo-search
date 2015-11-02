@@ -38,12 +38,12 @@ mobile = "(max-width: 480px)";
 .search-pane {
 	background: #EFEFEF;
 	absolute top headerHeight left 0 right 0
-	height 70px
+	height 100px
 	transition-duration: 0.2s
 	transition-property: height
 	
 	.search-container {
-		padding:10px 20px 0px 20px;
+		padding:8px 20px 0px 20px;
 		text-align: center
 	    max-width: 500px;
     	margin: auto;
@@ -106,28 +106,12 @@ mobile = "(max-width: 480px)";
 			height: 100px
 		}
 	}
-}
-
-.search-pane.show-filters {
-	height: 170px
-}
-
-.search-pane.show-filters + .photo-pane {
-	top: 210px
-}
-
-
-// CSS for Photo Upload Pane
-.photo-pane {
-	overflow: auto
-	absolute top 110px left 0 right 0 bottom 0
-	border-top: 1px solid blueColor;
-	transition-duration: 0.2s
-	transition-property: top
 	
 	.sorting-container {
-        padding: 5px 40px 5px 0px;
+        padding: 2px 40px 4px 0px;
 	    text-align: right
+	    border-top: 1px solid blueColor;
+    	background: white;
 	    
 	    .dijitDropDownButton {
 			border: 1px solid blueColor
@@ -150,6 +134,32 @@ mobile = "(max-width: 480px)";
 		    }
 	    }
 	}
+}
+
+.search-pane.show-filters {
+	height: 200px
+}
+
+.search-pane.show-filters + .photo-pane {
+	top: 240px
+}
+
+// once brower width hits a certain point,
+// show smaller images
+@media mobile {
+	.search-pane {
+		.sorting-container {
+		    padding-right: 20px
+		}
+	}
+}
+
+// CSS for Photo Upload Pane
+.photo-pane {
+	overflow: auto
+	absolute top 140px left 0 right 0 bottom 0
+	transition-duration: 0.2s
+	transition-property: top
 
 	.photos-container{
 		text-align: center
@@ -204,16 +214,6 @@ mobile = "(max-width: 480px)";
 	}
 }
 
-// once brower width hits a certain point,
-// show smaller images
-@media mobile {
-	.photo-pane {
-		.sorting-container {
-		    padding: 5px
-		}
-	}
-}
-
 // CSS for Photo box
 .photo {
 	display: inline-block
@@ -254,7 +254,7 @@ mobile = "(max-width: 480px)";
 		
 		.additonal-info {
 			text-align: right
-		    padding: 20px 5px 5px 5px;
+		    padding: 17px 5px 5px 5px;
 			
 			.fa {
 				padding-left: 10px;
@@ -314,7 +314,7 @@ mobile = "(max-width: 480px)";
 // Override dojo styles for date text boxes
 .claro .dijitDateTextBox.dijitComboBox.dijitTextBox {
 	border: 1px solid blueColor
-	border-radius: 2px 2px 0px 0px;
+	border-radius: 2px;
 	width: 150px
 
 	.dijitButtonNode {

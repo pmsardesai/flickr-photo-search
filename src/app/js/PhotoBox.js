@@ -53,13 +53,28 @@ define([ "dojo/_base/declare",
 					this.tagNum.set('value', result.photo.tags.tag.length);
 				}
 
-				// parse dates
-				var datePosted = result.photo.dates.posted;
-				this.datePosted.set('value', 'Posted: ' + datePosted);
+				var dateTaken = this._parseDate(result.photo.dates.taken);
+				this.dateTaken.set('value', 'Taken: ' + dateTaken);
 
-				var dateTaken = result.photo.dates.taken;
-				this.dateTaken.set('value', 'Uploaded: ' + dateTaken);
+				var datePosted = this._parseDate(result.photo.dates.posted);
+				this.datePosted.set('value', 'Posted: ' + datePosted);
 			}));
+		},
+
+		// parse date
+		_parseDate: function(dateString) {
+			var date = new Date(dateString);
+			if (isNaN(date)) {
+				var intVal = parseInt(dateString); // could be unix timestamp
+				intVal = intVal * 1000;
+				date = new Date(intVal);
+			}
+
+			if (date) {
+				dateString = date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric'});
+			}
+
+			return dateString;
 		},
 
 		_showDetails: function() {

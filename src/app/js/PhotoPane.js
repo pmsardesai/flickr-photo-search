@@ -12,13 +12,10 @@ define([ "dojo/_base/declare",
 	"dojo/dom-class",
 	"dojo/dom-construct",
 	"dojo/when",
-	"dijit/MenuItem",
 	"dojo/text!app/templates/PhotoPane.html",
 	"dijit/layout/ContentPane",
-	"dijit/form/Button",
-	"dijit/form/DropDownButton",
-	"dijit/DropDownMenu"], function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
-		FlickrWrapper, Photo, array, lang, domClass, domConstruct, when, MenuItem, templateString) {
+	"dijit/form/Button"], function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
+		FlickrWrapper, Photo, array, lang, domClass, domConstruct, when, templateString) {
 
 	var proto = {
 		templateString: templateString,
@@ -36,18 +33,8 @@ define([ "dojo/_base/declare",
 		// private variables
 		_count: 50,
 		_page: 1,
-		_sort: null,
 		_searchEnabled: false, // if false, display public photos, otherwise use search call
-		_currentDeferred: null,
-
-		postCreate: function() {
-			this.inherited(arguments);
-			this._createMenuItem('Relevance', 'Relevance');
-			this._createMenuItem('DatePostedAsc', 'Date Posted Ascending');
-			this._createMenuItem('DatePostedDesc', 'Date Posted Descending');
-			this._createMenuItem('DateTakenAsc', 'Date Taken Ascending');
-			this._createMenuItem('DateTakenDesc', 'Date Taken Descending');
-		},
+		_currentDeferred: null, // used to determine whether or not search is in progress
 
 		startup: function() {
 			this.inherited(arguments);
@@ -55,11 +42,14 @@ define([ "dojo/_base/declare",
 		},
 
 		// GETTERS AND SETTERS //
+		/*
+		* Sets the new search parms and refresh photos container
+		*/
 		_setSearchParmsAttr: function(value) {
 			this._set('searchParms', value)
 
 			this._page = 1;
-			this._searchEnabled = true;
+			this._searchEnabled = !!value;
 			this._loadPhotos();
 		},
 
@@ -68,7 +58,7 @@ define([ "dojo/_base/declare",
 		* Load photos in the container
 		*/
 		_loadPhotos: function() {
-			// if there is a search call in progress, ignore the current call
+			// if there is a search in progress, ignore the current call
 			if (this._currentDeferred && !this._currentDeferred.isResolved()) {
 				return;
 			}
@@ -104,7 +94,6 @@ define([ "dojo/_base/declare",
 		*/
 		_searchPhotos: function() {
 			var parms = this.searchParms || {};
-			this._sort && (parms['sort'] = this._sort);
 			parms['count'] = this._count;
 			parms['page'] = this._page;
 
@@ -122,11 +111,12 @@ define([ "dojo/_base/declare",
 			domClass.toggle(this.noResultsContainer, 'hidden', photos.pages > 0);
 
 			// if we have one page of results, or we are on the last page, hide load more container
-			var hideLoadMoreContainer = photos.pages === 1 || photos.pages === this._page;
+			var hideLoadMoreContainer = photos.pages === 0 || photos.pages === this._page;
 			domClass.toggle(this.loadMoreContainer, 'hidden', hideLoadMoreContainer);
 
 			var photos = photos.photo;
 			array.forEach(photos, function(photo) {
+				// create a photo node and place in container
 				var node = new Photo({photo: photo});
 				node.startup();
 				this.own(node);
@@ -134,38 +124,13 @@ define([ "dojo/_base/declare",
 			}, this)
 		},
 
-		/*
-		* Create a menu item
-		*/
-		_createMenuItem: function(field, label) {
-			this.menu.addChild(
-				new MenuItem ( {
-					field: field,
-					label: label,
-					ref: this,
-					onClick:this._menuItemClicked
-				}));
-		},
-
 		// EVENT HANDLERS //
 		/*
 		* When load more button is clicked, load more photos
 		*/
 		_loadClicked: function() {
-			this._page++;
+			this._page++; // increment so that we can get the next page
 			this._loadPhotos();
-		},
-
-		/*
-		* When sort type changes, automatically reload photos
-		*/
-		_menuItemClicked: function(item) {
-			var ref = this.ref;
-			ref.dropButton.set('label', this.label);
-			ref._page = 1; // go back to first page
-			ref._sort = ref.sortType[this.field];
-			ref._searchEnabled = true;
-			ref._loadPhotos();
 		}
 	};
 

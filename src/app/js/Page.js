@@ -19,7 +19,7 @@ define([ "dojo/_base/declare",
 		},
 
 		_clearClicked: function() {
-			//this.photoPane.
+			this.photoPane.set('searchParms', null);
 		}
 	};
 

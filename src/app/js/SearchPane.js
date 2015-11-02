@@ -6,19 +6,41 @@ define([ "dojo/_base/declare",
 	"dijit/_TemplatedMixin",
 	"dijit/_WidgetsInTemplateMixin",
 	"dojo/dom-class",
+	"dijit/MenuItem",
 	"dojo/text!app/templates/SearchPane.html",
 	"dijit/layout/ContentPane",
 	"dijit/form/Button",
 	"app/js/SearchTextBox",
-	"dijit/form/DateTextBox"], 
+	"dijit/form/DateTextBox",
+	"dijit/form/DropDownButton",
+	"dijit/DropDownMenu"], 
 	function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
-		domClass, templateString) {
+		domClass, MenuItem, templateString) {
 	var proto = {
 		templateString: templateString,
 		baseClass: 'search-pane',
 
-		text: null,
+		sortType: {
+			Relevance: 'relevance',
+			DatePostedAsc: 'date-posted-asc',
+			DatePostedDesc: 'date-posted-desc',
+			DateTakenAsc: 'date-taken-asc',
+			DateTakenDesc: 'date-taken-desc'
+		},
+
+		// private variables
+		_sort: null,
+		_text: null,
 		
+		postCreate: function() {
+			this.inherited(arguments);
+			this._createMenuItem('Relevance', 'Relevance');
+			this._createMenuItem('DatePostedAsc', 'Date Posted Ascending');
+			this._createMenuItem('DatePostedDesc', 'Date Posted Descending');
+			this._createMenuItem('DateTakenAsc', 'Date Taken Ascending');
+			this._createMenuItem('DateTakenDesc', 'Date Taken Descending');
+		},
+
 		// PRIVATE FUNCTIONS //
 		_getDateValue: function(widget, parms, key) {
 			var date = widget.get('value');
@@ -30,7 +52,8 @@ define([ "dojo/_base/declare",
 
 		_emitSearchEvent: function() {
 			var parms = {};
-			this.text && (parms['text'] = value);
+			this._text && (parms['text'] = this._text);
+			this._sort && (parms['sort'] = this._sort);
 
 			this._getDateValue(this.datePostedFrom, parms, 'min_upload_date');
 			this._getDateValue(this.datePostedTo, parms, 'max_upload_date');
@@ -47,6 +70,19 @@ define([ "dojo/_base/declare",
 			this.moreOptions.set('label', 'More Options');
 		},
 
+		/*
+		* Create a menu item
+		*/
+		_createMenuItem: function(field, label) {
+			this.menu.addChild(
+				new MenuItem ( {
+					field: field,
+					label: label,
+					ref: this,
+					onClick:this._menuItemClicked
+				}));
+		},
+
 		// EVENT HANDLERS //
 		_updateFilterState: function() {
 			if (this.moreOptions.buttonState === 'hide') {
@@ -60,7 +96,7 @@ define([ "dojo/_base/declare",
 		},
 
 		_searchButtonClicked: function(value) {
-			this.set('text', value);
+			this._text = value;
 			this._emitSearchEvent();
 			this._hideFilterPane();
 		},
@@ -74,10 +110,25 @@ define([ "dojo/_base/declare",
 			this.datePostedTo.set('value', null);
 			this.dateTakenFrom.set('value', null);
 			this.dateTakenTo.set('value', null);
+
+			this.dropButton.set('label', 'Relevance');
+			this._sort = null;
+
+			this.searchText.set('value', '');
 		},
 
 		_dateChanged: function(value) {
 			value && this._emitSearchEvent();
+		},
+
+		/*
+		* When sort type changes, automatically reload photos
+		*/
+		_menuItemClicked: function() {
+			var ref = this.ref;
+			ref.dropButton.set('label', this.label);
+			ref._sort = ref.sortType[this.field];
+			ref._emitSearchEvent();
 		},
 		
 		onSearch: function() { },

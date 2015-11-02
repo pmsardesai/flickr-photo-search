@@ -7,7 +7,8 @@ define([ "dojo/_base/declare",
 	"dojo/_base/lang",
 	"dojo/dom-class",
 	"dojo/dom-construct",
-	"dojo/on"], function (dojo_declare, _TextBox, FlickrWrapper, lang, domClass, domConstruct, on) {
+	"dojo/keys",
+	"dojo/on"], function (dojo_declare, _TextBox, FlickrWrapper, lang, domClass, domConstruct, keys, on) {
 
 	var proto = {
 		postCreate: function() {
@@ -18,8 +19,10 @@ define([ "dojo/_base/declare",
 			this.own(on(searchNode, 'click', lang.hitch(this, function() {
 				this.emit('Search', {}, [this.get('value')])
 			})));
-			this.own(on(searchNode, 'keypress', lang.hitch(this, function() {
-				this.emit('Search', {}, [this.get('value')])
+			this.own(on(this.domNode, 'keypress', lang.hitch(this, function(evt) {
+				if (evt.keyCode === keys.ENTER) {
+					this.emit('Search', {}, [this.get('value')])
+				}
 			})));
 		},
 
