@@ -1,7 +1,10 @@
 {
-  "name": "flickr-photo-search",
+  "name": "flickr-photosearch",
   "version": "1.10.0",
   "description": "A simple page that allows you to search photos using Flickr API",
+  "scripts": {
+    "start": "node app.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/pmsardesai/flickr-photo-search.git"

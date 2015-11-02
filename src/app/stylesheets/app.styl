@@ -148,9 +148,36 @@ mobile = "(max-width: 480px)";
 // show smaller images
 @media mobile {
 	.search-pane {
-		.sorting-container {
-		    padding-right: 20px
+		.search-container{
+			.filter-container.show {
+				height: 150px
+			}
+
+			.filter-container {
+				margin-top: 23px
+				.date-range-filter{
+					text-align: center;
+					overflow: hidden;
+				}
+
+				.dijitDateTextBox {
+					display: block
+					margin: 0 auto;
+				}
+			}
 		}
+
+		.sorting-container {
+		    padding-right: 20px;
+		}
+	}
+	
+	.search-pane.show-filters {
+		height: 250px
+	}
+
+	.search-pane.show-filters + .photo-pane {
+		top: 290px
 	}
 }
 
@@ -192,7 +219,6 @@ mobile = "(max-width: 480px)";
     	padding: 0px 0px 15px 0px;
     	
     	.dijitButton {
-			border: 1px solid blueColor;
 			
 			.dijitButtonNode {
 				height: 25px;
