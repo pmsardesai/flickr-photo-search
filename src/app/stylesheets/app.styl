@@ -135,9 +135,13 @@ mobile = "(max-width: 480px)";
 			    color: blueColor
 			    box-shadow: none
 			    padding-top: 4px;
-
-			    .dijitArrowButtonInner {
-			    	float: right
+			    
+			    .dijitDownArrowButton {
+			    	/*arrow in firefox does not align with text properly*/
+					white-space: normal;
+				    .dijitArrowButtonInner {
+				    	float: right
+				    }
 			    }
 		    }
 	    }
