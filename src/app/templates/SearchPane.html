@@ -3,17 +3,8 @@
 		<div data-dojo-attach-point="searchText" 
 			data-dojo-type="app/js/SearchTextBox"
 			data-dojo-props="placeholder:'Search photos'"
-			data-dojo-attach-event="onSearch:_searchButtonClicked" ></div>
-		<div class="buttons-container">
-			<div class="more-options" data-dojo-attach-point="moreOptions" 
-				data-dojo-type="dijit/form/Button"
-				data-dojo-props="label: 'More Options', buttonState:'hide'"
-				data-dojo-attach-event="onClick:_updateFilterState" ></div>
-			<div class="reset" data-dojo-attach-point="reset" 
-				data-dojo-type="dijit/form/Button"
-				data-dojo-props="label: 'Reset'"
-				data-dojo-attach-event="onClick:_clearFilters" ></div>
-		</div>
+			data-dojo-attach-event="onSearch:_searchButtonClicked,
+			onFilterStateChange:_updateFilterState" ></div>
 		<div class="filter-container" data-dojo-attach-point="filterContainer">
 			<div class="date-range-filter">
 				<div class="label" data-dojo-type="dojox/mvc/Output"
@@ -43,6 +34,12 @@
 		</div>
 	</div>
 	
+	<!-- Add following:
+		Media
+		Tag mode
+		Accuracy
+		
+	 -->
 	<!-- Sorting options -->
 	<div class="sorting-container">
 		<span data-dojo-attach-point="dropButton" 

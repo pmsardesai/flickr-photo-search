@@ -140,7 +140,7 @@ mobile = "(max-width: 480px)";
 .search-pane {
 	background: #EFEFEF;
 	absolute top headerHeight left 0 right 0
-	height 100px
+	height 60px
 	transition-duration: 0.2s
 	transition-property: height
 	
@@ -150,7 +150,7 @@ mobile = "(max-width: 480px)";
 	    max-width: 500px;
     	margin: auto;
     	overflow: hidden;
-
+    	
 		.search-box.dijitTextBox {
 			width 100%
 	    	box-sizing border-box
@@ -160,9 +160,11 @@ mobile = "(max-width: 480px)";
     		position relative
     		padding-right 25px
     		overflow hidden
+    		vertical-align top
+    		border-color darkGrey
     		
     		.dijitInputContainer {
-    			padding-right 50px
+    			margin 0px 50px 0px 40px
     		}
     		
     		.fa {
@@ -170,10 +172,10 @@ mobile = "(max-width: 480px)";
     			top: 0px;
 			    bottom: 0px;
 			    cursor: pointer;
+			    font-size 24px
 			    
 			    &.fa-search {
 			    	right: 0px;
-				    font-size: 24px
 				    padding: 6px 11px
 		    		color: white;
 				    background: blueColor;
@@ -182,33 +184,24 @@ mobile = "(max-width: 480px)";
 				    right 40px
 				    font-size 20px
 				    padding 9px 14px
-				    color darkGrey
+				    color #A9A9A9
 				    &:hover {
-				    	color #929292
+				    	color darkGrey
 				    }
     			}
+    			
+    			&.fa-sliders {
+    				left: 0px;
+		    		padding: 7px 10px;
+		    		border-right 1px solid darkGrey
+		    	}
     		}
 		}
 
-		.buttons-container {
-			float:right
-			
-			.dijitButton {
-				margin: 0px
-				
-				.dijitButtonNode {
-					background: transparent
-				    border: none
-				    color: blueColor
-				    box-shadow: none
-				}
-			}
-		}
-		
 		.filter-container {
 			height 0px
 			display: block 
-			margin-top: 20px
+			margin-top: 10px
 		    text-align: left;
 		    
 		    .date-range-filter {
@@ -226,9 +219,9 @@ mobile = "(max-width: 480px)";
 	}
 	
 	.sorting-container {
-        padding: 2px 40px 4px 0px;
+        padding: 2px 40px 4px 0px
 	    text-align: right
-	    border-top: 1px solid blueColor;
+	    border-top: 1px solid darkGrey
     	background: white;
 	    
 	    .dijitDropDownButton {
@@ -258,11 +251,14 @@ mobile = "(max-width: 480px)";
 	}
 	
 	&.show-filters {
-		height: 200px
+		height 190px
+		.fa-sliders {
+			color blueColor
+		}
 	}
 
 	&.show-filters + .photo-pane {
-		top 270px
+		top 265px
 	}
 }
 
@@ -277,8 +273,7 @@ mobile = "(max-width: 480px)";
 			}
 
 			.filter-container {
-				margin-top 23px
-				
+				margin-top 0px
 				.date-range-filter{
 					text-align center
 					overflow hidden
@@ -291,6 +286,7 @@ mobile = "(max-width: 480px)";
 				
 				&.show {
 					height 150px
+					margin-top 10px
 				}
 			}
 		}
@@ -300,10 +296,10 @@ mobile = "(max-width: 480px)";
 		}
 		
 		&.show-filters{
-			height 250px
+			height 200px
 		}
 		&.show-filters + .photo-pane{
-			top 320px
+			top 310px
 		}
 	}
 }
@@ -311,7 +307,7 @@ mobile = "(max-width: 480px)";
 // *************** CSS for Photo Upload Pane *************** //
 .photo-pane {
 	overflow: auto
-	absolute top 180px left 0 right 0 bottom 0
+	absolute top 165px left 0 right 0 bottom 0
 	transition-duration: 0.2s
 	transition-property: top
 
@@ -414,18 +410,20 @@ mobile = "(max-width: 480px)";
 			}
 		}
 	}
-}
-
-.photo.show-details {
-	.photo-hover {
-	    height: 100px
-		z-index: 1
+	&.show-details {
+		.photo-hover {
+		    height: 100px
+			z-index: 1
+		}
 	}
 }
 
 // once brower width hits a certain point,
 // show smaller images
 @media mobile {
+	.photo-pane {
+		top 145px
+	}
 	.photo {
 		display: block
 		border: 1px solid blueColor

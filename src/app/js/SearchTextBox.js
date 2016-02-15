@@ -11,11 +11,20 @@ define([ "dojo/_base/declare",
 	"dojo/on"], function (dojo_declare, _TextBox, FlickrWrapper, lang, domClass, domConstruct, keys, on) {
 
 	var proto = {
+		// public variable
+		filterState: false,
+
+		// private variables + constants
 		_clearNode: null,
 
 		postCreate: function() {
 			this.inherited(arguments);
 			domClass.add(this.domNode, "search-box");
+
+			this._advancedFilter = domConstruct.create("a", {'class': 'fa-sliders fa'}, this.domNode, 'first');
+			this.own(on(this._advancedFilter, 'click', lang.hitch(this, function() {
+				this.set('filterState', !this.filterState);
+			})));
 
 			this._clearNode = domConstruct.create("a", {'class': 'fa-times fa dijitHidden'}, this.domNode, 'last');
 			this.own(on(this._clearNode, 'click', lang.hitch(this, function() {
@@ -34,6 +43,12 @@ define([ "dojo/_base/declare",
 			})));
 		},
 
+		// SETTERS
+		_setFilterStateAttr: function(value){
+			this._set('filterState', value);
+			this.emit('FilterStateChange', {}, [value])
+		},
+
 		// @inherited
 		_onInput: function(e) {
 			this.inherited(arguments);
@@ -43,7 +58,8 @@ define([ "dojo/_base/declare",
 		},
 
 		// DEFAULT EVENTS //
-		onSearch: function() { }
+		onSearch: function() { },
+		onFilterStateChange: function() { }
 	};
 
 	return dojo_declare("js.SearchTextBox", [_TextBox], proto);

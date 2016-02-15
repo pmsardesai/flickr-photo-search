@@ -66,8 +66,6 @@ define([ "dojo/_base/declare",
 		_hideFilterPane: function() {
 			domClass.remove(this.filterContainer, 'show');
 			domClass.remove(this.domNode, 'show-filters');
-			this.moreOptions.buttonState = 'hide';
-			this.moreOptions.set('label', 'More Options');
 		},
 
 		/*
@@ -84,12 +82,10 @@ define([ "dojo/_base/declare",
 		},
 
 		// EVENT HANDLERS //
-		_updateFilterState: function() {
-			if (this.moreOptions.buttonState === 'hide') {
+		_updateFilterState: function(state) {
+			if (state) {
 				domClass.add(this.filterContainer, 'show');
 				domClass.add(this.domNode, 'show-filters');
-				this.moreOptions.buttonState = 'show';
-				this.moreOptions.set('label', 'Hide Options');
 			} else {
 				this._hideFilterPane();
 			}
