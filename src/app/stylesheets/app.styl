@@ -7,9 +7,9 @@
 
 html,
 body {
-	height: 100%;
-	margin: 0;
-	padding: 0;
+	height 100%
+	margin 0
+	padding 0
 }
 
 headerHeight = 70px
@@ -20,10 +20,10 @@ mobile = "(max-width: 480px)";
 
 // CSS for widgets
 .dijitButtonNode *{
-	outline: none
+	outline none
 }
 
-// CSS for Main Page
+// *************** CSS for Main Page *************** //
 .page {
 	width: 100%
 	height: 100%
@@ -99,6 +99,7 @@ mobile = "(max-width: 480px)";
 
 				&.dijitMenuItemIconCell {
 					padding 12px 20px
+					font-size 150%
 					.fa {
 						padding-bottom 3px
 					}
@@ -120,7 +121,22 @@ mobile = "(max-width: 480px)";
 	}
 }
 
-// CSS for Search Pane
+@media mobile {
+	.page .header-bar {
+		.info {
+			white-space nowrap
+			.details  {
+				.realname, .username {
+					text-overflow ellipsis
+				    overflow hidden
+				    max-width 200px
+				}
+			}
+		}
+	}
+}
+
+// *************** CSS for Search Pane *************** //
 .search-pane {
 	background: #EFEFEF;
 	absolute top headerHeight left 0 right 0
@@ -135,28 +151,43 @@ mobile = "(max-width: 480px)";
     	margin: auto;
     	overflow: hidden;
 
-		.search-box {
-			width: 100%;
-	    	box-sizing: border-box;
-    		border-radius: 7px;
-    		padding: 7px;
-    		font-size: 14px
-    		position:relative
-    		padding-right: 25px
-    		overflow: hidden
+		.search-box.dijitTextBox {
+			width 100%
+	    	box-sizing border-box
+    		border-radius 7px
+    		padding 7px
+    		font-size 18px
+    		position relative
+    		padding-right 25px
+    		overflow hidden
+    		
+    		.dijitInputContainer {
+    			padding-right 50px
+    		}
     		
     		.fa {
-    			color: white;
     			position: absolute;
-			    right: 0px;
-			    top: 0px;
-			    bottom: 0;
-			    font-size: 18px;
-			    padding: 7px 12px;
+    			top: 0px;
+			    bottom: 0px;
 			    cursor: pointer;
-			    background: blueColor
+			    
+			    &.fa-search {
+			    	right: 0px;
+				    font-size: 24px
+				    padding: 6px 11px
+		    		color: white;
+				    background: blueColor;
+			    }
+			    &.fa-times {
+				    right 40px
+				    font-size 20px
+				    padding 9px 14px
+				    color darkGrey
+				    &:hover {
+				    	color #929292
+				    }
+    			}
     		}
-
 		}
 
 		.buttons-container {
@@ -187,9 +218,10 @@ mobile = "(max-width: 480px)";
 			    	color: #666666
 			    }
 		    }
-		}
-		.filter-container.show {
-			height: 100px
+		    
+		    &.show {
+		    	height 100px
+		    }
 		}
 	}
 	
@@ -224,57 +256,62 @@ mobile = "(max-width: 480px)";
 		    }
 	    }
 	}
-}
+	
+	&.show-filters {
+		height: 200px
+	}
 
-.search-pane.show-filters {
-	height: 200px
-}
-
-.search-pane.show-filters + .photo-pane {
-	top 270px
+	&.show-filters + .photo-pane {
+		top 270px
+	}
 }
 
 // once brower width hits a certain point,
 // show smaller images
 @media mobile {
 	.search-pane {
-		.search-container{
-			.filter-container.show {
-				height: 150px
+		.search-container {
+			padding 0px
+			.search-box.dijitTextBox {
+				border-radius 0px
 			}
 
 			.filter-container {
-				margin-top: 23px
+				margin-top 23px
+				
 				.date-range-filter{
-					text-align: center;
-					overflow: hidden;
+					text-align center
+					overflow hidden
 				}
 
 				.dijitDateTextBox {
-					display: block
-					margin: 0 auto;
+					display block
+					margin 0 auto
+				}
+				
+				&.show {
+					height 150px
 				}
 			}
 		}
 
 		.sorting-container {
-		    padding-right: 20px;
+		    padding-right 20px
 		}
-	}
-	
-	.search-pane.show-filters {
-		height: 250px
-	}
-
-	.search-pane.show-filters + .photo-pane {
-		top: 290px
+		
+		&.show-filters{
+			height 250px
+		}
+		&.show-filters + .photo-pane{
+			top 320px
+		}
 	}
 }
 
-// CSS for Photo Upload Pane
+// *************** CSS for Photo Upload Pane *************** //
 .photo-pane {
 	overflow: auto
-	absolute top 170px left 0 right 0 bottom 0
+	absolute top 180px left 0 right 0 bottom 0
 	transition-duration: 0.2s
 	transition-property: top
 
@@ -290,14 +327,14 @@ mobile = "(max-width: 480px)";
 	}
 	
 	.no-results-container {
-		
+		color #666
+		text-align center
+
 		.no-results-label {
 			width: 100%;
-    		text-align: center;
     		display: block;
 		    font-size: 20px;
-    		color: #666666;
-    		padding: 0px 5px;
+    		padding: 0px 15px;
     		box-sizing: border-box;
 		}
 	}

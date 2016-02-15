@@ -46,15 +46,8 @@ define([ "dojo/_base/declare",
 		        popup: this.menu,
 		        around: this.profileInfo,
 		        orient: ['below-alt'],
-		        onExecute: function(){
-		            me._closeMenu();
-		        },
-		        onCancel: function(){
-		            me._closeMenu();
-		        },
-		        onBlur: function() {
-		        	var test = '';
-		        }
+		        onExecute: function(){ me._closeMenu(); },
+		        onCancel: function(){ me._closeMenu(); }
 		    });
 
 			// add focus to dropdown so that it hides on blur

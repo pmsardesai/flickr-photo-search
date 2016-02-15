@@ -15,7 +15,7 @@ define([ "dojo/_base/declare",
 	"dijit/form/DropDownButton",
 	"dijit/DropDownMenu"], 
 	function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
-		domClass, MenuItem, templateString) {
+	domClass, MenuItem, templateString) {
 	var proto = {
 		templateString: templateString,
 		baseClass: 'search-pane',

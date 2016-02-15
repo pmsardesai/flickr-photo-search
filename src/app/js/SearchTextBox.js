@@ -11,9 +11,17 @@ define([ "dojo/_base/declare",
 	"dojo/on"], function (dojo_declare, _TextBox, FlickrWrapper, lang, domClass, domConstruct, keys, on) {
 
 	var proto = {
+		_clearNode: null,
+
 		postCreate: function() {
 			this.inherited(arguments);
 			domClass.add(this.domNode, "search-box");
+
+			this._clearNode = domConstruct.create("a", {'class': 'fa-times fa dijitHidden'}, this.domNode, 'last');
+			this.own(on(this._clearNode, 'click', lang.hitch(this, function() {
+				this.set('value', '');
+				domClass.add(this._clearNode, 'dijitHidden');
+			})));
 
 			var searchNode = domConstruct.create("a", {'class': 'fa-search fa'}, this.domNode, 'last');
 			this.own(on(searchNode, 'click', lang.hitch(this, function() {
@@ -24,6 +32,14 @@ define([ "dojo/_base/declare",
 					this.emit('Search', {}, [this.get('value')])
 				}
 			})));
+		},
+
+		// @inherited
+		_onInput: function(e) {
+			this.inherited(arguments);
+			// only show clear node if there is anything in textbox
+			var value = this.textbox.value;
+			domClass.toggle(this._clearNode, 'dijitHidden', !value);
 		},
 
 		// DEFAULT EVENTS //
