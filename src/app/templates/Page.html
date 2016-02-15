@@ -1,9 +1,42 @@
 <div>
 	<div class="header-bar">
-		<span class="fa fa-user"></span>
-		<span>Hello username</span>
+		<div class="info" data-dojo-attach-point="profileInfo"
+			data-dojo-attach-event="onClick: _profileMenuClicked">
+			<div class="profile-icon">
+				<span class="fa fa-user"></span>
+			</div>
+			
+		 	<div class="details">
+			 	<div class="realname"
+					 data-dojo-type="dojox/mvc/Output" 
+					 data-dojo-attach-point="realname"
+					 data-dojo-props="value: '(Loading...)'"></div>
+				 <div class="username"
+					 data-dojo-type="dojox/mvc/Output" 
+					 data-dojo-attach-point="username"
+					 data-dojo-props="value: '(Loading...)'"></div>
+		 	</div>
+		 	<div class="fa fa-sort-desc arrow"></div>
+		 	<div class="profile-menu" 
+	 			 data-dojo-attach-point="menu" 
+	 			 data-dojo-type="dijit/DropDownMenu"
+	 			 data-dojo-attach-event="onBlur: _closeMenu">
+		 		<div data-dojo-type="dijit/MenuItem"
+ 					 data-dojo-props="iconClass:'fa fa-gear'">
+ 					 Settings
+ 					 <span class="note">(not functional)</span>
+				 </div>
+	 			 <div data-dojo-type="dijit/MenuItem" 
+	 			 	  data-dojo-props="iconClass:'fa fa-sign-out'">
+	 			 	  Log out
+	 			 	  <span class="note">(not functional)</span>
+ 			 	  </div>
+
+		 	</div>
+	 	</div>
 	</div>
 	<div data-dojo-type="app/js/SearchPane" 
-	data-dojo-attach-event="onSearch:_searchClicked, onClear: _clearClicked"></div>
-	<div data-dojo-type="app/js/PhotoPane" data-dojo-attach-point="photoPane"></div>
+		 data-dojo-attach-event="onSearch:_searchClicked, onClear: _clearClicked"></div>
+	<div data-dojo-type="app/js/PhotoPane" 
+		 data-dojo-attach-point="photoPane"></div>
 </div>

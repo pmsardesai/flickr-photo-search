@@ -17,6 +17,11 @@ define([
 		_methodGetPublicPhotos: 'flickr.people.getPublicPhotos',
 		_methodSearch: 'flickr.photos.search',
 		_methodGetPhotoInfo: 'flickr.photos.getInfo',
+		_methodGetUserInfo: 'flickr.people.getInfo',
+
+		getUserInfo: function(optionalParams) {
+			return this._makeAjaxRequest(this._methodGetUserInfo, optionalParams);
+		},
 
 		getPublicPhotos: function(optionalParams) {
 			return this._makeAjaxRequest(this._methodGetPublicPhotos, optionalParams);
