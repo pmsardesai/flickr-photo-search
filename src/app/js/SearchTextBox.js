@@ -15,15 +15,22 @@ define([ "dojo/_base/declare",
 		filterState: false,
 
 		// private variables + constants
+		_advancedFilter: null,
 		_clearNode: null,
+		_searchNode: null,
 
 		postCreate: function() {
 			this.inherited(arguments);
 			domClass.add(this.domNode, "search-box");
 
-			this._advancedFilter = domConstruct.create("a", {'class': 'fa-sliders fa'}, this.domNode, 'first');
-			this.own(on(this._advancedFilter, 'click', lang.hitch(this, function() {
+			this._advancedFilterNode = domConstruct.create("a", {'class': 'fa-sliders fa'}, this.domNode, 'first');
+			this.own(on(this._advancedFilterNode, 'click', lang.hitch(this, function() {
 				this.set('filterState', !this.filterState);
+			})));
+
+			this._sortNode = domConstruct.create("a", {'class': 'fa-sort fa'}, this.domNode, 'first');
+			this.own(on(this._sortNode, 'click', lang.hitch(this, function() {
+				this.emit('Sort')
 			})));
 
 			this._clearNode = domConstruct.create("a", {'class': 'fa-times fa dijitHidden'}, this.domNode, 'last');
@@ -32,8 +39,8 @@ define([ "dojo/_base/declare",
 				domClass.add(this._clearNode, 'dijitHidden');
 			})));
 
-			var searchNode = domConstruct.create("a", {'class': 'fa-search fa'}, this.domNode, 'last');
-			this.own(on(searchNode, 'click', lang.hitch(this, function() {
+			this._searchNode = domConstruct.create("a", {'class': 'fa-search fa'}, this.domNode, 'last');
+			this.own(on(this._searchNode, 'click', lang.hitch(this, function() {
 				this.emit('Search', {}, [this.get('value')])
 			})));
 			this.own(on(this.domNode, 'keypress', lang.hitch(this, function(evt) {
@@ -45,8 +52,10 @@ define([ "dojo/_base/declare",
 
 		// SETTERS
 		_setFilterStateAttr: function(value){
-			this._set('filterState', value);
-			this.emit('FilterStateChange', {}, [value])
+			if (value !== this.filterState) {
+				this._set('filterState', value);
+				this.emit('FilterStateChange', {}, [value])
+			}
 		},
 
 		// @inherited
@@ -59,6 +68,7 @@ define([ "dojo/_base/declare",
 
 		// DEFAULT EVENTS //
 		onSearch: function() { },
+		onSort: function() { },
 		onFilterStateChange: function() { }
 	};
 

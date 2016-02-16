@@ -79,7 +79,7 @@ mobile = "(max-width: 480px)";
 .claro .dijitPopup {
 	box-shadow none
 	
-	.profile-menu.dijitMenu {
+	.dijitMenu {
 		background darkGrey
 		border 0px
 
@@ -195,6 +195,10 @@ mobile = "(max-width: 480px)";
 		    		padding: 7px 10px;
 		    		border-right 1px solid darkGrey
 		    	}
+		    	
+		    	&.fa-sort {
+					display none
+		    	}
     		}
 		}
 
@@ -202,15 +206,27 @@ mobile = "(max-width: 480px)";
 			height 0px
 			display: block 
 			margin-top: 10px
-		    text-align: left;
+		    text-align: center;
 		    
 		    .date-range-filter {
+		    	display inline-block
 		    	padding: 0px 10px 10px 10px;
-		    	
+
 			    .label {
-			    	color: #666666
+			    	color #666666
+			    	text-align left
 			    }
+			    
+			    .dijitDateTextBox {
+					display block
+					margin 5px auto
+				}
 		    }
+
+			&.show {
+				height 150px
+				margin-top 10px
+			}
 		    
 		    &.show {
 		    	height 100px
@@ -219,8 +235,7 @@ mobile = "(max-width: 480px)";
 	}
 	
 	.sorting-container {
-        padding: 2px 40px 4px 0px
-	    text-align: right
+        padding: 4px 40px 4px 6px
 	    border-top: 1px solid darkGrey
     	background: white;
 	    
@@ -266,10 +281,31 @@ mobile = "(max-width: 480px)";
 // show smaller images
 @media mobile {
 	.search-pane {
+		height 40px
+		border-bottom 1px solid darkGrey
 		.search-container {
 			padding 0px
 			.search-box.dijitTextBox {
 				border-radius 0px
+				
+				.dijitInputContainer {
+	    			margin 0px 50px 0px 70px
+	    		}
+
+	    		.fa {
+	    			&.fa-sliders {
+	    				left: 35px
+			    		padding: 7px 8px;
+			    		border-right 1px solid darkGrey
+			    	}
+			    	
+			    	&.fa-sort{
+						left: 0px;
+			    		padding: 7px 10px;
+			    		border-right 1px solid darkGrey
+			    		display inherit
+			    	}
+		    	}
 			}
 
 			.filter-container {
@@ -292,14 +328,14 @@ mobile = "(max-width: 480px)";
 		}
 
 		.sorting-container {
-		    padding-right 20px
+		    display none
 		}
 		
 		&.show-filters{
 			height 200px
 		}
 		&.show-filters + .photo-pane{
-			top 310px
+			top 271px
 		}
 	}
 }
@@ -312,7 +348,6 @@ mobile = "(max-width: 480px)";
 	transition-property: top
 
 	.photos-container{
-		text-align: center
 	    padding: 5px;
 
 		img {
@@ -355,11 +390,6 @@ mobile = "(max-width: 480px)";
 			    box-shadow: none
 			}
 		}
-	}
-	
-	.no-results-container.hidden,
-	.load-button-container.hidden{
-		display: none;
 	}
 }
 
@@ -422,11 +452,11 @@ mobile = "(max-width: 480px)";
 // show smaller images
 @media mobile {
 	.photo-pane {
-		top 145px
+		top 111px
 	}
 	.photo {
 		display: block
-		border: 1px solid blueColor
+		border: 1px solid darkGrey
 		margin: 5px
 		.photo-img {
 		    width: 100px;
@@ -438,33 +468,71 @@ mobile = "(max-width: 480px)";
 			left: 100px;
 			top: 0px;
 			height: auto
-			background: #EDEDED;
+			background: white;
 			color:black
 			
+			.title {
+				font-weight bolder
+				font-size 110%
+				background #EDEDED
+				padding-bottom 5px
+			}
+			
+			.additonal-info {
+				padding-top 25px
+			}
 		}
 	}
 }
 
-// Override dojo styles for menus
-.dijitMenu.sort-menu {
-	border 1px solid blueColor
+// *************** Sort Menu Popup *************** //
+.dijitPopup .dijitMenu.sort-menu {
+	border 1px solid darkGrey
 	
 	.dijitMenuItem {
 		height 25px
-	}
-	
-	.dijitMenuItem.dijitMenuItemHover td,
-	.dijitMenuItem.dijitMenuItemActive td,
-	.dijitMenuItem.dijitMenuItemSelected td {
-		background blueColor
-		background-image none
-		color white
+
+		td {
+			&.dijitMenuItemIconCell,
+			&.dijitMenuArrowCell {
+				display none
+			}
+			&.dijitMenuItemLabel {
+				padding 10px 15px
+				
+				.fa-sort-asc {
+					padding 4px 10px
+				    vertical-align top
+				    font-size 20px
+				    height 5px
+				}
+				.fa-sort-desc {
+					padding 0px 10px
+				    vertical-align top
+				    font-size 20px
+				    margin-top -5px
+				}
+			}
+		}
+		
+		// this is the currently active menu item
+		&.active {
+			background-color blueColor;
+
+			&.dijitMenuItemHover,
+			&.dijitMenuItemActive,
+			&.dijitMenuItemSelected {
+				td {
+					background-color blueColor;
+				}
+			}
+		}
 	}
 }
 
-// Override dojo styles for date text boxes
+// *************** Override dojo styles for date text boxes *************** //
 .claro .dijitDateTextBox.dijitComboBox.dijitTextBox {
-	border: 1px solid blueColor
+	border: 1px solid darkGrey
 	border-radius: 2px;
 	width: 150px
 
@@ -477,17 +545,24 @@ mobile = "(max-width: 480px)";
 }
 
 .dijitCalendarPopup {
-	border: 1px solid blueColor;
+	border: 1px solid darkGrey;
+	
+	.dijitCalendar {
+		border none
+	}
 	
 	.dijitCalendarContainer,
 	.dijitCalendarHover,
 	.dijitCalendar:hover,
 	.dijitCalendarActive {
-		background: white
+		background: darkGrey
+		color: white
+		padding: 0px 3px 0px 2px;
 	}
 	.dijitCalendarContainer,
 	.dijitCalendarHover {
-		background-color white
+		background-color darkGrey
+		color white
 		border-radius:0px;
 		.dijitCalendarBodyContainer {
 			border: 1px solid blueColor;

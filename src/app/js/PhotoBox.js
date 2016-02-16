@@ -54,10 +54,10 @@ define([ "dojo/_base/declare",
 				}
 
 				var dateTaken = this._parseDate(result.photo.dates.taken);
-				this.dateTaken.set('value', 'Taken: ' + dateTaken);
+				this.dateTaken.set('value', 'Taken on ' + dateTaken);
 
 				var datePosted = this._parseDate(result.photo.dates.posted);
-				this.datePosted.set('value', 'Posted: ' + datePosted);
+				this.datePosted.set('value', 'Posted on ' + datePosted);
 			}));
 		},
 

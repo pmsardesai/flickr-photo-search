@@ -14,7 +14,8 @@ define([ "dojo/_base/declare",
 	"dojo/when",
 	"dojo/text!app/templates/PhotoPane.html",
 	"dijit/layout/ContentPane",
-	"dijit/form/Button"], function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
+	"dijit/form/Button",
+	"dojox/mvc/Output"], function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
 		FlickrWrapper, Photo, array, lang, domClass, domConstruct, when, templateString) {
 
 	var proto = {
@@ -108,11 +109,11 @@ define([ "dojo/_base/declare",
 		*/
 		_createPhotos: function(photos) {
 			// display no results label if there are no results
-			domClass.toggle(this.noResultsContainer, 'hidden', photos.pages > 0);
+			domClass.toggle(this.noResultsContainer, 'dijitHidden', photos.pages > 0);
 
 			// if we have one page of results, or we are on the last page, hide load more container
 			var hideLoadMoreContainer = photos.pages === 0 || photos.pages === this._page;
-			domClass.toggle(this.loadMoreContainer, 'hidden', hideLoadMoreContainer);
+			domClass.toggle(this.loadMoreContainer, 'dijitHidden', hideLoadMoreContainer);
 
 			var photos = photos.photo;
 			array.forEach(photos, function(photo) {

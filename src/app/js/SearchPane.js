@@ -6,16 +6,19 @@ define([ "dojo/_base/declare",
 	"dijit/_TemplatedMixin",
 	"dijit/_WidgetsInTemplateMixin",
 	"dojo/dom-class",
+	"dijit/focus",
 	"dijit/MenuItem",
+	"dijit/popup",
 	"dojo/text!app/templates/SearchPane.html",
 	"dijit/layout/ContentPane",
 	"dijit/form/Button",
 	"app/js/SearchTextBox",
 	"dijit/form/DateTextBox",
 	"dijit/form/DropDownButton",
+	"dijit/form/ToggleButton",
 	"dijit/DropDownMenu"], 
 	function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
-	domClass, MenuItem, templateString) {
+	domClass, focus, MenuItem, popup, templateString) {
 	var proto = {
 		templateString: templateString,
 		baseClass: 'search-pane',
@@ -31,14 +34,15 @@ define([ "dojo/_base/declare",
 		// private variables
 		_sort: null,
 		_text: null,
+		_activeMenuItem: null,
 		
 		postCreate: function() {
 			this.inherited(arguments);
-			this._createMenuItem('Relevance', 'Relevance');
-			this._createMenuItem('DatePostedAsc', 'Date Posted Ascending');
-			this._createMenuItem('DatePostedDesc', 'Date Posted Descending');
-			this._createMenuItem('DateTakenAsc', 'Date Taken Ascending');
-			this._createMenuItem('DateTakenDesc', 'Date Taken Descending');
+			this._createMenuItem('Relevance', 'Relevance', null, true);
+			this._createMenuItem('DatePostedAsc', 'Date Posted', true);
+			this._createMenuItem('DatePostedDesc', 'Date Posted', false);
+			this._createMenuItem('DateTakenAsc', 'Date Taken', true);
+			this._createMenuItem('DateTakenDesc', 'Date Taken', false);
 		},
 
 		// PRIVATE FUNCTIONS //
@@ -61,24 +65,36 @@ define([ "dojo/_base/declare",
 			this._getDateValue(this.dateTakenTo, parms, 'max_taken_date');
 
 			this.emit('Search', {}, [parms])
+			this._hideFilterPane(); // collapse pane
 		},
 
 		_hideFilterPane: function() {
 			domClass.remove(this.filterContainer, 'show');
 			domClass.remove(this.domNode, 'show-filters');
+			this.searchText.set('filterState', false);
 		},
 
 		/*
 		* Create a menu item
 		*/
-		_createMenuItem: function(field, label) {
-			this.menu.addChild(
-				new MenuItem ( {
-					field: field,
-					label: label,
-					ref: this,
-					onClick:this._menuItemClicked
-				}));
+		_createMenuItem: function(field, label, isAscending, isActive) {
+			if (isAscending !== null) {
+				var sortType = isAscending ? "fa-sort-asc" : "fa-sort-desc";
+				label += '<span class="fa ' + sortType + '"></span>';
+			}
+
+			var menuItem = new MenuItem ( {
+				field: field,
+				label: label,
+				ref: this,
+				onClick:this._menuItemClicked
+			});
+			this.menu.addChild(menuItem);
+
+			if (isActive) {
+				this._activeMenuItem = menuItem;
+				domClass.add(menuItem.domNode, 'active');
+			}
 		},
 
 		// EVENT HANDLERS //
@@ -117,14 +133,42 @@ define([ "dojo/_base/declare",
 			value && this._emitSearchEvent();
 		},
 
+		_sortClicked: function() {
+			var me = this;
+			popup.open({
+		        parent: this,
+		        popup: this.menu,
+		        around: this.searchText.domNode,
+		        orient: ['below'],
+		        onExecute: function(){ popup.close(this.menu); },
+		        onCancel: function(){ popup.close(this.menu); }
+		    });
+
+			// add focus to dropdown so that it hides on blur
+		    focus.focus(this.menu.domNode);
+		},
+		_closeMenu: function() {
+			popup.close(this.menu);
+		},
+
 		/*
 		* When sort type changes, automatically reload photos
 		*/
 		_menuItemClicked: function() {
 			var ref = this.ref;
+
+			// if same menu item clicked, don't do anything!
+			if (this === this.ref._activeMenuItem)
+				return;
+
 			ref.dropButton.set('label', this.label);
 			ref._sort = ref.sortType[this.field];
 			ref._emitSearchEvent();
+
+			// remove active class from previous item and add to the new one
+			ref._activeMenuItem && domClass.remove(ref._activeMenuItem.domNode, 'active');
+			ref._activeMenuItem = this;
+			domClass.add(this.domNode, 'active');
 		},
 		
 		onSearch: function() { },

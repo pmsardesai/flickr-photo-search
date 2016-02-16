@@ -4,33 +4,32 @@
 			data-dojo-type="app/js/SearchTextBox"
 			data-dojo-props="placeholder:'Search photos'"
 			data-dojo-attach-event="onSearch:_searchButtonClicked,
-			onFilterStateChange:_updateFilterState" ></div>
+			onFilterStateChange:_updateFilterState, onSort:_sortClicked" ></div>
 		<div class="filter-container" data-dojo-attach-point="filterContainer">
 			<div class="date-range-filter">
 				<div class="label" data-dojo-type="dojox/mvc/Output"
-					data-dojo-props="value:'Date Posted:'"></div>
+					data-dojo-props="value:'DATE POSTED'"></div>
 				<div data-dojo-type="dijit/form/DateTextBox"
 					data-dojo-attach-point="datePostedFrom"
-					data-dojo-props="placeholder:'From (MM/DD/YYYY)'"
+					data-dojo-props="placeholder:'From'"
 					data-dojo-attach-event="onChange:_dateChanged"></div>
 				<div data-dojo-type="dijit/form/DateTextBox"
 					data-dojo-attach-point="datePostedTo"
-					data-dojo-props="placeholder:'To (MM/DD/YYYY)'"
+					data-dojo-props="placeholder:'To'"
 					data-dojo-attach-event="onChange:_dateChanged"></div>
 			</div>
 			<div class="date-range-filter">
 				<div class="label" data-dojo-type="dojox/mvc/Output"
-					data-dojo-props="value:'Date Taken:'"></div>
+					data-dojo-props="value:'DATE TAKEN'"></div>
 				<div data-dojo-type="dijit/form/DateTextBox"
 					data-dojo-attach-point="dateTakenFrom"
-					data-dojo-props="placeholder:'From (MM/DD/YYYY)'"
+					data-dojo-props="placeholder:'From'"
 					data-dojo-attach-event="onChange:_dateChanged"></div>
 				<div data-dojo-type="dijit/form/DateTextBox"
 					data-dojo-attach-point="dateTakenTo"
-					data-dojo-props="placeholder:'To (MM/DD/YYYY)'"
+					data-dojo-props="placeholder:'To'"
 					data-dojo-attach-event="onChange:_dateChanged"></div>
 			</div>
-
 		</div>
 	</div>
 	
@@ -45,7 +44,10 @@
 		<span data-dojo-attach-point="dropButton" 
 			  data-dojo-type="dijit/form/DropDownButton" 
 			  data-dojo-props="label:'Relevance'">
-			<span class="sort-menu" data-dojo-attach-point="menu" data-dojo-type="dijit/DropDownMenu"></span>
+			<span class="sort-menu" 
+				  data-dojo-attach-point="menu" 
+				  data-dojo-type="dijit/DropDownMenu"
+				  data-dojo-attach-event="onBlur: _closeMenu"></span>
 		</span>
 	</div>
 </span>
