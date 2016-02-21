@@ -23,6 +23,10 @@ mobile = "(max-width: 480px)";
 	outline none
 }
 
+.dijitHidden {
+	display none
+}
+
 // *************** CSS for Main Page *************** //
 .page {
 	width: 100%
@@ -138,7 +142,7 @@ mobile = "(max-width: 480px)";
 
 // *************** CSS for Search Pane *************** //
 .search-pane {
-	background: #EFEFEF;
+	background: #F1EBDC;
 	absolute top headerHeight left 0 right 0
 	height 60px
 	transition-duration: 0.2s
@@ -235,30 +239,43 @@ mobile = "(max-width: 480px)";
 	}
 	
 	.sorting-container {
-        padding: 4px 40px 4px 6px
+        padding: 4px 40px 4px 0px
 	    border-top: 1px solid darkGrey
-    	background: white;
+    	background: darkGrey;
+    	text-align: right;
 	    
 	    .dijitDropDownButton {
-			border: 1px solid blueColor
-			height: 25px
-    		border-radius: 2px
-			
+			border: none
+			height: 35px
+
 		    .dijitButtonNode {
 		    	width: 200px
-		    	text-align: left
-		    	background: white
-			    border-radius: 2px
+		    	text-align: right
+		    	background: darkGrey
 			    border: none
-			    color: blueColor
+			    color: white
 			    box-shadow: none
 			    padding-top: 4px;
+			    
+			    .dijitButtonText {
+			    	font-size 200%
+			    }
+			    
+	    		.fa-sort-desc {
+					margin-top -15px;
+					padding-left 15px;
+				}
+
+				.fa-sort-asc {
+					margin-bottom -5px;
+					padding-left 15px;
+				}
 			    
 			    .dijitDownArrowButton {
 			    	/*arrow in firefox does not align with text properly*/
 					white-space: normal;
 				    .dijitArrowButtonInner {
-				    	float: right
+				    	display: none
 				    }
 			    }
 		    }
@@ -273,7 +290,7 @@ mobile = "(max-width: 480px)";
 	}
 
 	&.show-filters + .photo-pane {
-		top 265px
+		top 277px
 	}
 }
 
@@ -287,22 +304,23 @@ mobile = "(max-width: 480px)";
 			padding 0px
 			.search-box.dijitTextBox {
 				border-radius 0px
+				border-bottom-width 2px
 				
 				.dijitInputContainer {
-	    			margin 0px 50px 0px 70px
+	    			margin 0px 50px 0px 85px
 	    		}
 
 	    		.fa {
 	    			&.fa-sliders {
-	    				left: 35px
-			    		padding: 7px 8px;
-			    		border-right 1px solid darkGrey
+	    				left: 41px
+			    		padding: 7px 11px;
+			    		border-right 2px solid darkGrey
 			    	}
 			    	
 			    	&.fa-sort{
 						left: 0px;
-			    		padding: 7px 10px;
-			    		border-right 1px solid darkGrey
+			    		padding: 7px 13px;
+			    		border-right 2px solid darkGrey
 			    		display inherit
 			    	}
 		    	}
@@ -343,12 +361,13 @@ mobile = "(max-width: 480px)";
 // *************** CSS for Photo Upload Pane *************** //
 .photo-pane {
 	overflow: auto
-	absolute top 165px left 0 right 0 bottom 0
+	absolute top 177px left 0 right 0 bottom 0
 	transition-duration: 0.2s
 	transition-property: top
 
 	.photos-container{
 	    padding: 5px;
+	    text-align center;
 
 		img {
 		    height: 150px;
@@ -370,26 +389,22 @@ mobile = "(max-width: 480px)";
 		}
 	}
 	
-	.load-button-container {
-		width: 100%
+	.loading-container {
 		text-align: center
-	    height: 40px;
-    	padding: 0px 0px 15px 0px;
+    	padding: 10px 0px 15px 0px;
     	
-    	.dijitButton {
-			
-			.dijitButtonNode {
-				height: 25px;
-			    width: 200px;
-			    padding-top: 6px;
-			    font-size: 18px;
-			    background: white;
-			    border-radius: 2px;
-			    border: none;
-			    color: blueColor;
-			    box-shadow: none
-			}
-		}
+    	.spinner {
+    		background-image url('../images/loading-animation.gif');
+    		height 70px;
+		    width 70px;
+		    background-repeat no-repeat;
+		    margin 0 auto;
+    	}
+    	
+    	.text {
+    		font-size: 300%;
+    		padding: 5px 0px;
+    	}
 	}
 }
 
@@ -400,8 +415,8 @@ mobile = "(max-width: 480px)";
 	position: relative
 	
 	.photo-img {
-	    width: 200px;
-    	height: 200px;
+	    width: 250px;
+    	height: 250px;
     	background-size: cover;
     	background-repeat: no-repeat;
 	    background-position: center;
@@ -452,7 +467,7 @@ mobile = "(max-width: 480px)";
 // show smaller images
 @media mobile {
 	.photo-pane {
-		top 111px
+		top 112px
 	}
 	.photo {
 		display: block
@@ -537,18 +552,57 @@ mobile = "(max-width: 480px)";
 	width: 150px
 
 	.dijitButtonNode {
-		background white
+		background white		
 	}
 	.dijitInputField {
 		padding 4px;
 	}	
 }
 
+// *************** Override dojo styles for date calendar *************** //
 .dijitCalendarPopup {
 	border: 1px solid darkGrey;
 	
 	.dijitCalendar {
 		border none
+		
+		.dijitDropDownButton {
+			.dijitButtonNode {
+				border-radius: 0px
+			}
+
+
+			&.dijitDropDownButtonHover,
+			&.dijitDropDownButtonActive {
+				.dijitCalendarCurrentMonthLabel {
+					color: darkGrey;
+				}
+			}
+
+			&.dijitDropDownButtonHover .dijitButtonNode {
+				background-color #e5f2fe
+			}
+			
+			&.dijitDropDownButtonActive .dijitButtonNode {
+				background-color #7dbdfa
+			}
+		}
+
+		.dijitCalendarMonthLabel,
+		.dijitCalendarDayLabel {
+			color white
+		}
+		
+		.dijitCalendarDayLabelTemplate {
+			padding: 6px 3px 3px 3px;
+		}
+		
+		.dijitCalendarYearContainer {
+			padding 3px
+			.dijitCalendarSelectedYear {
+				color white
+			}
+		}
 	}
 	
 	.dijitCalendarContainer,
@@ -557,8 +611,13 @@ mobile = "(max-width: 480px)";
 	.dijitCalendarActive {
 		background: darkGrey
 		color: white
-		padding: 0px 3px 0px 2px;
+		border: none;
 	}
+	
+	.dijitCalendarContainer {
+		padding: 4px;
+	}
+
 	.dijitCalendarContainer,
 	.dijitCalendarHover {
 		background-color darkGrey
@@ -567,5 +626,26 @@ mobile = "(max-width: 480px)";
 		.dijitCalendarBodyContainer {
 			border: 1px solid blueColor;
 		}
+	}
+}
+
+.dijitCalendarMonthMenuPopup .dijitCalendarMonthMenu {
+
+	.dijitCalendarMonthLabel {
+		color: white;
+		border-bottom: none;
+		padding: 5px
+		
+		&.dijitCalendarMonthLabelHover,
+		&.dijitCalendarMonthLabelActive {
+			background: darkGrey
+			border-color: white
+		}
+	}
+	
+	.dijitCalendarMonthLabel {
+		color: white;
+		border-bottom: none;
+		padding: 5px
 	}
 }

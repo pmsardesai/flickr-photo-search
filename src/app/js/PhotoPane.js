@@ -11,12 +11,13 @@ define([ "dojo/_base/declare",
 	"dojo/_base/lang",
 	"dojo/dom-class",
 	"dojo/dom-construct",
+	"dojo/has",
+	"dojo/on",
 	"dojo/when",
-	"dojo/text!app/templates/PhotoPane.html",
+	"dojo/text!app/templates/PhotoPane.html", // template
 	"dijit/layout/ContentPane",
-	"dijit/form/Button",
 	"dojox/mvc/Output"], function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
-		FlickrWrapper, Photo, array, lang, domClass, domConstruct, when, templateString) {
+		FlickrWrapper, Photo, array, lang, domClass, domConstruct, has, on, when, templateString) {
 
 	var proto = {
 		templateString: templateString,
@@ -36,6 +37,13 @@ define([ "dojo/_base/declare",
 		_page: 1,
 		_searchEnabled: false, // if false, display public photos, otherwise use search call
 		_currentDeferred: null, // used to determine whether or not search is in progress
+
+		postCreate: function() {
+			this.inherited(arguments);
+
+			// load photos when we scroll in the photos pane
+			this.own(on(this.domNode, 'scroll', lang.hitch(this, this._loadMore)));
+		},
 
 		startup: function() {
 			this.inherited(arguments);
@@ -111,9 +119,10 @@ define([ "dojo/_base/declare",
 			// display no results label if there are no results
 			domClass.toggle(this.noResultsContainer, 'dijitHidden', photos.pages > 0);
 
-			// if we have one page of results, or we are on the last page, hide load more container
-			var hideLoadMoreContainer = photos.pages === 0 || photos.pages === this._page;
-			domClass.toggle(this.loadMoreContainer, 'dijitHidden', hideLoadMoreContainer);
+			//	if we have one page of results, or we are on the last page, hide load more container
+			var hideLoadingContainer = photos.pages === 0 || photos.pages === this._page;
+			domClass.toggle(this.loadingContainer, 'dijitHidden', hideLoadingContainer);
+			this._lastPageReached = hideLoadingContainer;
 
 			var photos = photos.photo;
 			array.forEach(photos, function(photo) {
@@ -122,16 +131,19 @@ define([ "dojo/_base/declare",
 				node.startup();
 				this.own(node);
 				domConstruct.place(node.domNode, this.photosContainer, 'last');
-			}, this)
+			}, this);
 		},
 
-		// EVENT HANDLERS //
 		/*
 		* When load more button is clicked, load more photos
 		*/
-		_loadClicked: function() {
-			this._page++; // increment so that we can get the next page
-			this._loadPhotos();
+		_loadMore: function() {
+			//as soon as there is 200px remaining, get more data
+			var difference = this.domNode.scrollHeight - (this.domNode.scrollTop + this.domNode.clientHeight);
+			if (difference < 200 && !this._lastPageReached && this._currentDeferred.isResolved()) {
+				this._page++; // increment so that we can get the next page
+				this._loadPhotos();
+			}
 		}
 	};
 

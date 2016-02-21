@@ -7,10 +7,9 @@
 			<div class="fa fa-meh-o fa-4x"></div>
 			<label class="no-results-label">Sorry, no results were found. Please try again.</label>
 		</div>
-		<div class="load-button-container" data-dojo-attach-point="loadMoreContainer">
-			<span data-dojo-attach-point="loadMore" 
-				data-dojo-type="dijit/form/Button"
-				data-dojo-attach-event="onClick:_loadClicked">Load More...</span>
+		<div class="loading-container" data-dojo-attach-point="loadingContainer">
+			<div class="spinner"></div>
+			<label class="text">Loading...</label>
 		</div>
 	</div>
 </span>
