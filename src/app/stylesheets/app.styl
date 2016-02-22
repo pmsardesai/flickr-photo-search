@@ -238,36 +238,43 @@ mobile = "(max-width: 480px)";
 		}
 	}
 	
-	.sorting-container {
+	.info-container {
         padding: 4px 40px 4px 0px
 	    border-top: 1px solid darkGrey
     	background: darkGrey;
-    	text-align: right;
+    	height: 38px;
+    	
+    	.num-results {
+    		color white;
+    		font-size 175%;
+    		padding-left 25px;
+		    padding-top 6px;
+		    display inline-block;
+    	}
 	    
 	    .dijitDropDownButton {
 			border: none
 			height: 35px
+			float: right
 
 		    .dijitButtonNode {
-		    	width: 200px
-		    	text-align: right
-		    	background: darkGrey
+		    	background: #606060;
 			    border: none
 			    color: white
 			    box-shadow: none
 			    padding-top: 4px;
 			    
 			    .dijitButtonText {
-			    	font-size 200%
+			    	font-size 175%
 			    }
 			    
 	    		.fa-sort-desc {
-					margin-top -15px;
+					margin-top -10px;
 					padding-left 15px;
 				}
 
 				.fa-sort-asc {
-					margin-bottom -5px;
+					margin-bottom -10px;
 					padding-left 15px;
 				}
 			    
@@ -345,7 +352,7 @@ mobile = "(max-width: 480px)";
 			}
 		}
 
-		.sorting-container {
+		.info-container {
 		    display none
 		}
 		

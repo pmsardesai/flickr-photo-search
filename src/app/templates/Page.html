@@ -36,7 +36,9 @@
 	 	</div>
 	</div>
 	<div data-dojo-type="app/js/SearchPane" 
+	 	 data-dojo-attach-point="searchPane"
 		 data-dojo-attach-event="onSearch:_searchClicked, onClear: _clearClicked"></div>
 	<div data-dojo-type="app/js/PhotoPane" 
-		 data-dojo-attach-point="photoPane"></div>
+		 data-dojo-attach-point="photoPane"
+		 data-dojo-attach-event="onTotalUpdated: _onTotalUpdated"></div>
 </div>

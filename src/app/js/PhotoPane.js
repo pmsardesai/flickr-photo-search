@@ -124,6 +124,12 @@ define([ "dojo/_base/declare",
 			domClass.toggle(this.loadingContainer, 'dijitHidden', hideLoadingContainer);
 			this._lastPageReached = hideLoadingContainer;
 
+			if (photos.total === "0") {
+				this.emit('TotalUpdated', {}, [0]);
+			} else if (this._page === 1) {
+				this.emit('TotalUpdated', {}, [photos.total]);
+			}
+
 			var photos = photos.photo;
 			array.forEach(photos, function(photo) {
 				// create a photo node and place in container
@@ -144,7 +150,9 @@ define([ "dojo/_base/declare",
 				this._page++; // increment so that we can get the next page
 				this._loadPhotos();
 			}
-		}
+		},
+
+		onTotalUpdated: function(total) { } 
 	};
 
 	return dojo_declare("js.PhotoPane", [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], proto);

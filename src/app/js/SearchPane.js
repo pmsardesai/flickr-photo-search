@@ -9,19 +9,21 @@ define([ "dojo/_base/declare",
 	"dijit/focus",
 	"dijit/MenuItem",
 	"dijit/popup",
-	"dojo/text!app/templates/SearchPane.html",
-	"dijit/layout/ContentPane",
-	"dijit/form/Button",
+	"dojo/text!app/templates/SearchPane.html", // template
 	"app/js/SearchTextBox",
+	"dijit/DropDownMenu",
+	"dijit/form/Button",
 	"dijit/form/DateTextBox",
 	"dijit/form/DropDownButton",
 	"dijit/form/ToggleButton",
-	"dijit/DropDownMenu"], 
+	"dijit/layout/ContentPane",
+	"dojox/mvc/Output"], 
 	function (dojo_declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, 
 	domClass, focus, MenuItem, popup, templateString) {
 	var proto = {
 		templateString: templateString,
 		baseClass: 'search-pane',
+		total: 0,
 
 		sortType: {
 			Relevance: 'relevance',
@@ -43,6 +45,16 @@ define([ "dojo/_base/declare",
 			this._createMenuItem('DatePostedDesc', 'Date Posted', false);
 			this._createMenuItem('DateTakenAsc', 'Date Taken', true);
 			this._createMenuItem('DateTakenDesc', 'Date Taken', false);
+		},
+
+		// SETTERS //
+		_setTotalAttr: function(value) {
+			this._set('total', value);
+			if (value === 0) {
+				this.totalLabel.innerHTML = '';
+			} else {
+				this.totalLabel.innerHTML = value + ' results found';
+			}
 		},
 
 		// PRIVATE FUNCTIONS //

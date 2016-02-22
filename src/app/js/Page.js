@@ -64,6 +64,10 @@ define([ "dojo/_base/declare",
 
 		_clearClicked: function() {
 			this.photoPane.set('searchParms', null);
+		},
+
+		_onTotalUpdated: function(value) {
+			this.searchPane.set('total', value);
 		}
 	};
 

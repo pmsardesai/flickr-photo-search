@@ -11,11 +11,11 @@
 					data-dojo-props="value:'DATE POSTED'"></div>
 				<div data-dojo-type="dijit/form/DateTextBox"
 					data-dojo-attach-point="datePostedFrom"
-					data-dojo-props="placeholder:'From'"
+					data-dojo-props="placeholder:'From', hasDownArrow: false"
 					data-dojo-attach-event="onChange:_dateChanged"></div>
 				<div data-dojo-type="dijit/form/DateTextBox"
 					data-dojo-attach-point="datePostedTo"
-					data-dojo-props="placeholder:'To'"
+					data-dojo-props="placeholder:'To', hasDownArrow: false"
 					data-dojo-attach-event="onChange:_dateChanged"></div>
 			</div>
 			<div class="date-range-filter">
@@ -23,11 +23,11 @@
 					data-dojo-props="value:'DATE TAKEN'"></div>
 				<div data-dojo-type="dijit/form/DateTextBox"
 					data-dojo-attach-point="dateTakenFrom"
-					data-dojo-props="placeholder:'From'"
+					data-dojo-props="placeholder:'From', hasDownArrow: false"
 					data-dojo-attach-event="onChange:_dateChanged"></div>
 				<div data-dojo-type="dijit/form/DateTextBox"
 					data-dojo-attach-point="dateTakenTo"
-					data-dojo-props="placeholder:'To'"
+					data-dojo-props="placeholder:'To', hasDownArrow: false"
 					data-dojo-attach-event="onChange:_dateChanged"></div>
 			</div>
 		</div>
@@ -39,9 +39,13 @@
 		Accuracy
 		
 	 -->
-	<!-- Sorting options -->
-	<div class="sorting-container">
-		<span data-dojo-attach-point="dropButton" 
+	<!-- Info container -->
+	<div class="info-container">
+		<label class="num-results"
+			  data-dojo-attach-point="totalLabel"> 
+		</label>
+		<span class="sort"
+			  data-dojo-attach-point="dropButton" 
 			  data-dojo-type="dijit/form/DropDownButton" 
 			  data-dojo-props="label:'Relevance'">
 			<span class="sort-menu" 
